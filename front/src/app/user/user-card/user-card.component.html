@@ -1,0 +1,133 @@
+<div class="user-controls" data-aos="zoom-in">
+	<div class="controls-grid">
+		<!-- Поле с ФИО -->
+		<div class="control-group">
+			<div class="input-wrapper">
+				<i class="fas fa-user-tag"></i>
+				<input class="user-input"
+					   type="text"
+					   [value]="user.fio"
+					   readonly style="color: black">
+			</div>
+		</div>
+
+		<!-- Выбор роли -->
+		<div class="control-group">
+			<div class="select-wrapper">
+				<i class="fas fa-user-shield"></i>
+				<select (change)="setRole()"
+						[(ngModel)]="user.role"
+						class="role-select"
+						required>
+					<option *ngFor="let r of roles | keyvalue"
+							[value]="r.key">
+						{{ r.value }}
+					</option>
+				</select>
+			</div>
+		</div>
+
+		<!-- Кнопка удаления -->
+		<div class="control-group">
+			<button (click)="deleteUser()"
+					class="delete-btn">
+				<i class="fas fa-trash-alt"></i>
+				Удалить профиль
+			</button>
+		</div>
+	</div>
+</div>
+
+<style>
+	.user-controls {
+		max-width: 800px;
+		margin: 1.5rem auto;
+		padding: 1rem;
+	}
+
+	.controls-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 1.5rem;
+		align-items: center;
+	}
+
+	.control-group {
+		position: relative;
+
+	}
+
+	.input-wrapper,
+	.select-wrapper {
+		position: relative;
+		display: flex;
+		align-items: center;
+	}
+
+	.user-input,
+	.role-select {
+		width: 100%;
+		padding: 0.8rem 1rem 0.8rem 2.5rem;
+		border: 2px solid #e0e0e0;
+		border-radius: 0.8rem;
+		font-size: 1rem;
+		transition: all 0.3s;
+		background: #f8f9fa;
+		color: black;
+	}
+
+	.user-input:focus,
+	.role-select:focus {
+		border-color: #3498db;
+		box-shadow: 0 0 15px rgba(52,152,219,0.2);
+		outline: none;
+	}
+
+	.fa-user-tag,
+	.fa-user-shield {
+		position: absolute;
+		left: 1rem;
+		color: #3498db;
+		z-index: 2;
+	}
+
+	.role-select {
+		appearance: none;
+		background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232c3e50' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+		background-repeat: no-repeat;
+		background-position: right 1rem center;
+		background-size: 1em;
+	}
+
+	.delete-btn {
+		width: 100%;
+		padding: 0.8rem 1.5rem;
+		background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+		color: white;
+		border: none;
+		border-radius: 0.8rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.8rem;
+		transition: all 0.3s;
+		cursor: pointer;
+	}
+
+	.delete-btn:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 5px 15px rgba(231,76,60,0.3);
+	}
+
+	@media (max-width: 768px) {
+		.controls-grid {
+			grid-template-columns: 1fr;
+			gap: 1rem;
+		}
+
+		.user-input,
+		.role-select {
+			padding-left: 2.2rem;
+		}
+	}
+</style>

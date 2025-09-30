@@ -1,0 +1,125 @@
+<footer class="re-footer">
+	<div class="re-footer-content">
+		<div class="re-footer-main">
+			<img src="/img/logo.jpg" alt="EstatePro" class="re-footer-logo">
+			<div class="re-footer-divider"></div>
+			<p class="re-footer-slogan">Ваш надежный партнер в мире недвижимости</p>
+		</div>
+		<div class="re-footer-bottom">
+			<p class="re-footer-copyright">© 2025 EstatePro. Все права защищены</p>
+			<div class="re-footer-social">
+				<a href="#" class="re-social-link">
+					<i class="fab fa-instagram"></i>
+				</a>
+				<a href="#" class="re-social-link">
+					<i class="fab fa-linkedin"></i>
+				</a>
+				<a href="#" class="re-social-link">
+					<i class="fab fa-telegram"></i>
+				</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<style>
+	.re-footer {
+		background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+		padding: 40px 20px;
+		color: white;
+		margin-top: -48px;
+		position: relative;
+	}
+
+	.re-footer::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 3px;
+		background: linear-gradient(90deg, #3498db 0%, #2980b9 100%);
+		box-shadow: 0 2px 15px rgba(52,152,219,0.3);
+	}
+
+	.re-footer-content {
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+
+	.re-footer-main {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 15px;
+		padding-bottom: 20px;
+		margin-bottom: 20px;
+		position: relative;
+	}
+
+	.re-footer-divider {
+		width: 120px;
+		height: 2px;
+		background: rgba(255,255,255,0.2);
+		margin: 15px 0;
+	}
+
+	.re-footer-logo {
+		width: 130px;
+		height: auto;
+		filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+	}
+
+	.re-footer-slogan {
+		font-size: 1.1rem;
+		font-weight: 300;
+		letter-spacing: 0.5px;
+		opacity: 0.9;
+		text-align: center;
+	}
+
+	.re-footer-bottom {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: center;
+		gap: 20px;
+		padding-top: 25px;
+		border-top: 1px solid rgba(255,255,255,0.1);
+	}
+
+	.re-footer-copyright {
+		font-size: 0.95rem;
+		opacity: 0.8;
+		margin: 0;
+	}
+
+	.re-footer-social {
+		display: flex;
+		gap: 25px;
+	}
+
+	.re-social-link {
+		color: white;
+		font-size: 1.4rem;
+		opacity: 0.7;
+		transition: all 0.3s ease;
+	}
+
+	.re-social-link:hover {
+		opacity: 1;
+		transform: translateY(-2px);
+		text-decoration: none;
+	}
+
+	@media (max-width: 768px) {
+		.re-footer-bottom {
+			flex-direction: column;
+			text-align: center;
+		}
+
+		.re-footer-social {
+			gap: 35px;
+		}
+	}
+</style>

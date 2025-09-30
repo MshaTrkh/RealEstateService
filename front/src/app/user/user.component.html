@@ -1,0 +1,112 @@
+<div class="users-container">
+	<!-- Заголовок -->
+	<div class="users-header" data-aos="fade-down">
+		<h1 class="users-title">
+			<i class="fas fa-users-cog"></i>
+			Управление пользователями
+		</h1>
+
+		<button appNavigate [navigateURL]="''"
+				class="back-btn"
+				data-aos="fade-down">
+			<i class="fas fa-chevron-left"></i>
+			Вернуться на главную
+		</button>
+	</div>
+
+	<!-- Список пользователей -->
+	<div class="users-grid">
+		@for (i of getSortedUsers(); track i.id) {
+			<div *ngIf="i.id !== userid"
+				 class="user-item"
+				 data-aos="zoom-in">
+				<app-user-card [user]="i"></app-user-card>
+			</div>
+		}
+	</div>
+</div>
+
+<style>
+	.users-container {
+		max-width: 1440px;
+		margin: 2rem auto;
+		padding: 0 2rem;
+	}
+
+	.users-header {
+		text-align: center;
+		margin-bottom: 3rem;
+	}
+
+	.users-title {
+		font-size: 2.5rem;
+		color: #2c3e50;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 1.5rem;
+		margin-bottom: 1.5rem;
+		color: white;
+	}
+
+	.back-btn {
+		background: #f8f9fa;
+		color: #3498db;
+		border: 2px solid #3498db;
+		padding: 0.8rem 2rem;
+		border-radius: 0.8rem;
+		transition: all 0.3s;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.8rem;
+	}
+
+	.back-btn:hover {
+		background: #3498db;
+		color: white;
+		transform: translateY(-2px);
+	}
+
+	.users-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		gap: 2rem;
+		margin: 0 auto;
+	}
+
+	.user-item {
+		background: white;
+		border-radius: 1.5rem;
+		box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+		transition: transform 0.3s;
+	}
+
+	.user-item:hover {
+		transform: translateY(-5px);
+	}
+
+	@media (max-width: 768px) {
+		.users-container {
+			padding: 0 1rem;
+		}
+
+		.users-title {
+			font-size: 2rem;
+		}
+
+		.users-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.users-title {
+			font-size: 1.8rem;
+		}
+
+		.back-btn {
+			width: 100%;
+			justify-content: center;
+		}
+	}
+</style>

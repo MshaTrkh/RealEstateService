@@ -1,0 +1,254 @@
+<div class="profile-container">
+	<div class="profile-header">
+		<h1 class="profile-title" data-aos="fade-down">
+			<i class="fas fa-user-circle"></i>
+			Мой профиль
+		</h1>
+
+		<button appNavigate [navigateURL]="''" class="back-btn" data-aos="fade-down">
+			<i class="fas fa-chevron-left"></i>
+			Вернуться на главную
+		</button>
+	</div>
+
+	<div class="profile-content">
+		<!-- Аватар -->
+		<div class="avatar-section" data-aos="zoom-in">
+			<div class="avatar-wrapper">
+				<img [src]="img" alt="Аватар" class="avatar-img">
+				<div class="avatar-hover">
+					<i class="fas fa-camera"></i>
+				</div>
+			</div>
+			<input type="file" (change)="updateImg($event)"
+				   class="avatar-upload" accept="image/*">
+		</div>
+
+		<!-- Форма редактирования -->
+		<div class="profile-form" data-aos="fade-up">
+			<div *ngIf="role !== 'USER'" class="manager-section">
+				<form [formGroup]="userFormGroup" (ngSubmit)="update()">
+					<div class="form-group">
+						<label><i class="fas fa-id-card"></i> Полное имя</label>
+						<input type="text" formControlName="fio"
+							   placeholder="Введите ваше ФИО">
+					</div>
+					<button type="submit" class="update-btn"
+							[disabled]="userFormGroup.invalid">
+						<i class="fas fa-sync-alt"></i>
+						Обновить данные
+					</button>
+				</form>
+			</div>
+
+			<div *ngIf="role === 'USER'" class="user-section">
+
+
+				<div class="form-divider">
+					<i class="fas fa-address-book"></i>
+					<span>Контактные данные</span>
+				</div>
+
+				<form [formGroup]="userFormGroup" (ngSubmit)="update()">
+					<div class="form-group">
+						<label><i class="fas fa-user-tag"></i> ФИО</label>
+						<input type="text" formControlName="fio">
+					</div>
+
+					<div class="form-group">
+						<label><i class="fas fa-phone"></i> Номер телефона</label>
+						<input type="text" formControlName="address">
+					</div>
+
+					<button type="submit" class="update-btn"
+							[disabled]="userFormGroup.invalid">
+						<i class="fas fa-save"></i>
+						Сохранить изменения
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	.profile-container {
+		max-width: 800px;
+		margin: 2rem auto;
+		padding: 2rem;
+		background: #ffffff;
+		border-radius: 1.5rem;
+		box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+	}
+
+	.profile-header {
+		text-align: center;
+		margin-bottom: 3rem;
+	}
+
+	.profile-title {
+		font-size: 2.5rem;
+		color: #2c3e50;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 1rem;
+		margin-bottom: 2rem;
+	}
+
+	.back-btn {
+		background: #f8f9fa;
+		color: #3498db;
+		border: 2px solid #3498db;
+		padding: 0.8rem 1.5rem;
+		border-radius: 0.8rem;
+		transition: all 0.3s;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.8rem;
+	}
+
+	.back-btn:hover {
+		background: #3498db;
+		color: white;
+		transform: translateY(-2px);
+	}
+
+	.avatar-section {
+		text-align: center;
+		margin-bottom: 3rem;
+	}
+
+	.avatar-wrapper {
+		width: 200px;
+		height: 200px;
+		margin: 0 auto 1.5rem;
+		position: relative;
+		border-radius: 50%;
+		overflow: hidden;
+		border: 4px solid #e0e0e0;
+		transition: all 0.3s;
+	}
+
+	.avatar-img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.avatar-hover {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0,0,0,0.5);
+		opacity: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: opacity 0.3s;
+	}
+
+	.avatar-wrapper:hover .avatar-hover {
+		opacity: 1;
+	}
+
+	.avatar-hover i {
+		color: white;
+		font-size: 2rem;
+	}
+
+	.avatar-upload {
+		color: black;
+	}
+
+	.profile-form {
+		background: #f8f9fa;
+		padding: 2rem;
+		border-radius: 1rem;
+	}
+
+	.form-group {
+		margin-bottom: 1.5rem;
+	}
+
+	.form-group label {
+		display: block;
+		color: #2c3e50;
+		margin-bottom: 0.5rem;
+		font-weight: 500;
+	}
+
+	.form-group input {
+		width: 100%;
+		padding: 1rem;
+		border: 2px solid #e0e0e0;
+		border-radius: 0.8rem;
+		transition: all 0.3s;
+	}
+
+	.form-group input:focus {
+		border-color: #3498db;
+		box-shadow: 0 0 15px rgba(52,152,219,0.2);
+	}
+
+	.form-divider {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		color: #3498db;
+		margin: 2rem 0;
+		font-size: 1.1rem;
+	}
+
+	.country-select {
+		width: 100%;
+		padding: 1rem;
+		border: 2px solid #e0e0e0;
+		border-radius: 0.8rem;
+		background: #000000;
+		appearance: none;
+		background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232c3e50' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+		background-repeat: no-repeat;
+		background-position: right 1rem center;
+		background-size: 1em;
+	}
+
+	.update-btn {
+		background: #3498db;
+		color: white;
+		padding: 1rem 2rem;
+		border: none;
+		border-radius: 0.8rem;
+		width: 100%;
+		font-size: 1.1rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 1rem;
+		transition: all 0.3s;
+	}
+
+	.update-btn:hover {
+		background: #2980b9;
+		transform: translateY(-2px);
+		box-shadow: 0 5px 15px rgba(52,152,219,0.3);
+	}
+
+	@media (max-width: 768px) {
+		.profile-container {
+			padding: 1.5rem;
+			margin: 1rem;
+		}
+
+		.profile-title {
+			font-size: 2rem;
+		}
+
+		.avatar-wrapper {
+			width: 150px;
+			height: 150px;
+		}
+	}
+</style>

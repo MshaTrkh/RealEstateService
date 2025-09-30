@@ -1,0 +1,335 @@
+<div class="property-container">
+	<!-- Заголовок -->
+	<div class="property-header" data-aos="fade-down">
+		<h1 class="property-title">
+			<i class="fas fa-building"></i>
+			{{ product.name }}
+		</h1>
+
+		<button appNavigate [navigateURL]="'products'" class="back-btn">
+			<i class="fas fa-chevron-left"></i>
+			Вернуться к каталогу
+		</button>
+	</div>
+
+	<!-- Основной контент -->
+	<div class="property-content">
+		<!-- Левая колонка -->
+		<div class="property-gallery">
+			<div class="property-actions" data-aos="zoom-in">
+				<div *ngIf="role === 'MANAGER'" class="manager-controls">
+					<a appNavigate [navigateURL]="'product_update'" [queryParams]="{id:product.id}"
+					   class="action-btn edit-btn">
+						<i class="fas fa-edit"></i>
+						Редактировать
+					</a>
+					<button (click)="delete()" class="action-btn delete-btn">
+						<i class="fas fa-trash-alt"></i>
+						Удалить
+					</button>
+				</div>
+
+				<div *ngIf="role === 'USER'" class="booking-form" data-aos="fade-up">
+					<form [formGroup]="orderingFormGroup" (ngSubmit)="ordering()">
+						<div class="form-group">
+							<label style="color: black"><i class="fas fa-calendar-alt"></i> Срок аренды (мес.): </label>
+							<input type="number" formControlName="quantity" min="1" max="36" style="background-color: white;color: black">
+						</div>
+
+						<div class="form-group">
+							<label style="color: black"><i class="fas fa-phone"></i> Контактные данные:</label>
+							<input type="text" formControlName="contact" style="background-color: white;color: black">
+						</div>
+
+						<div class="form-group">
+							<label style="color: black"><i class="fas fa-phone"></i> Адрес:</label>
+							<input type="text" formControlName="address" style="background-color: white;color: black">
+						</div>
+
+						<button type="submit" class="submit-btn" [disabled]="orderingFormGroup.invalid">
+							<i class="fas fa-file-contract"></i>
+							Оформить договор
+						</button>
+					</form>
+				</div>
+			</div>
+
+			<div class="property-image" data-aos="zoom-in">
+				<img [src]="product.img" alt="Фото объекта" class="main-image">
+				<div class="image-badge">
+					<i class="fas fa-camera"></i>
+					{{ product.photosCount }} фото
+				</div>
+			</div>
+		</div>
+
+		<!-- Правая колонка с характеристиками -->
+		<div class="property-details" data-aos="fade-left">
+			<!-- Блок с основными характеристиками -->
+			<div class="detail-card">
+				<div class="detail-icon">
+					<i class="fas fa-tag"></i>
+				</div>
+				<div class="detail-content">
+					<h3>Категория</h3>
+					<p>{{ product.categoryName }}</p>
+				</div>
+			</div>
+
+			<div class="detail-card highlighted">
+				<div class="detail-icon">
+					<i class="fas fa-coins"></i>
+				</div>
+				<div class="detail-content">
+					<h3>Стоимость</h3>
+					<p class="price">{{ product.price }} $/мес</p>
+					<small>Налоги и комиссия включены</small>
+				</div>
+			</div>
+
+			<!-- Дополнительные характеристики -->
+			<div class="specs-grid">
+				<div class="spec-item">
+					<i class="fas fa-calendar-check"></i>
+					<div>
+						<span>Дата постройки:</span>
+						<strong>{{ product.date }}</strong>
+					</div>
+				</div>
+
+				<div class="spec-item">
+					<i class="fas fa-shield-alt"></i>
+					<div>
+						<span>Страховка(мес.):</span>
+						<strong>{{ product.warranty }} месяцев</strong>
+					</div>
+				</div>
+
+				<div class="spec-item">
+					<i class="fas fa-flag"></i>
+					<div>
+						<span>Адрес:</span>
+						<strong>{{ product.country }}</strong>
+					</div>
+				</div>
+
+				<div class="spec-item">
+					<i class="fas fa-industry"></i>
+					<div>
+						<span>Застройщик:</span>
+						<strong>{{ product.firm }}</strong>
+					</div>
+				</div>
+			</div>
+
+			<!-- Блок с описанием -->
+			<div class="description-card">
+				<div class="description-header">
+					<i class="fas fa-file-alt"></i>
+					<h3>Описание объекта</h3>
+				</div>
+				<p class="description-text">{{ product.description }}</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	.property-container {
+		max-width: 1280px;
+		margin: 2rem auto;
+		padding: 2rem;
+		background: #fff;
+		border-radius: 1.5rem;
+		box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+	}
+
+	.property-header {
+		text-align: center;
+		margin-bottom: 3rem;
+	}
+
+	.property-title {
+		font-size: 2.5rem;
+		color: #2c3e50;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 1rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.back-btn {
+		background: #f8f9fa;
+		color: #3498db;
+		border: 2px solid #3498db;
+		padding: 0.8rem 1.5rem;
+		border-radius: 0.8rem;
+		transition: all 0.3s;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.8rem;
+	}
+
+	.back-btn:hover {
+		background: #3498db;
+		color: white;
+		transform: translateY(-2px);
+	}
+
+	.property-gallery {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 2rem;
+		margin-bottom: 3rem;
+	}
+
+	.property-image {
+		position: relative;
+		border-radius: 1rem;
+		overflow: hidden;
+		box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+	}
+
+	.main-image {
+		width: 100%;
+		height: 500px;
+		object-fit: cover;
+	}
+
+	.image-badge {
+		position: absolute;
+		bottom: 1rem;
+		right: 1rem;
+		background: rgba(0,0,0,0.7);
+		color: white;
+		padding: 0.5rem 1rem;
+		border-radius: 0.5rem;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.property-details {
+		display: grid;
+		gap: 1.5rem;
+	}
+
+	.detail-card {
+		background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+		border-radius: 1rem;
+		padding: 1.5rem;
+		display: flex;
+		align-items: center;
+		gap: 1.5rem;
+		transition: all 0.3s;
+	}
+
+	.detail-card.highlighted {
+		background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+		color: white;
+	}
+
+	.detail-icon {
+		width: 50px;
+		height: 50px;
+		background: rgba(52,152,219,0.1);
+		border-radius: 0.8rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 1.5rem;
+	}
+
+	.specs-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		gap: 1rem;
+	}
+
+	.spec-item {
+		background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+		padding: 1.5rem;
+		border-radius: 0.8rem;
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+
+	.spec-item i {
+		font-size: 1.5rem;
+		color: #ffffff;
+	}
+
+	.description-card {
+		background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+		border-radius: 1rem;
+		padding: 2rem;
+	}
+
+	.description-header {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.submit-btn {
+		background: #3498db;
+		color: white;
+		padding: 1rem;
+		margin-top: 10px;
+		border: none;
+		border-radius: 0.8rem;
+		width: 100%;
+		font-size: 1.1rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 1rem;
+		transition: all 0.3s;
+	}
+
+	.submit-btn:hover {
+		background: #3498db;
+		transform: translateY(-2px);
+	}
+
+	.action-btn {
+		padding: 0.8rem 1.5rem;
+		border-radius: 0.8rem;
+		display: flex;
+		align-items: center;
+		gap: 0.8rem;
+		transition: all 0.3s;
+	}
+
+	.edit-btn {
+		background: #3498db;
+		color: white;
+	}
+
+	.delete-btn {
+		background: #e74c3c;
+		color: white;
+	}
+
+	@media (max-width: 768px) {
+		.property-container {
+			padding: 1.5rem;
+			margin: 1rem;
+		}
+
+		.property-title {
+			font-size: 2rem;
+		}
+
+		.main-image {
+			height: 300px;
+		}
+
+		.specs-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

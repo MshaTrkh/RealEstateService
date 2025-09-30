@@ -1,0 +1,260 @@
+<div class="form-container">
+	<!-- Заголовок -->
+	<div class="form-header" data-aos="fade-down">
+		<h1 class="form-title">
+			<i class="fas fa-edit"></i>
+			Редактирование объекта
+		</h1>
+
+		<button appNavigate [navigateURL]="'product'" [queryParams]="{id:id}"
+				class="back-btn"
+				data-aos="fade-down">
+			<i class="fas fa-chevron-left"></i>
+			Вернуться к объекту
+		</button>
+	</div>
+
+	<!-- Форма редактирования -->
+	<form [formGroup]="productFormGroup" (ngSubmit)="update()" class="property-form">
+		<div class="form-grid">
+			<!-- Название и цена -->
+			<div class="form-group" data-aos="zoom-in">
+				<label><i class="fas fa-tag"></i> Название объекта</label>
+				<input type="text" formControlName="name"
+					   placeholder="Введите название объекта">
+			</div>
+
+			<div class="form-group" data-aos="zoom-in">
+				<label><i class="fas fa-coins"></i> Стоимость ($)</label>
+				<input type="number" formControlName="price"
+					   step="0.01"
+					   placeholder="Обновите стоимость">
+			</div>
+
+			<!-- Категория и фото -->
+			<div class="form-group" data-aos="zoom-in">
+				<label><i class="fas fa-list-alt"></i> Категория</label>
+				<select (change)="changeCategoryId($event)" class="styled-select">
+					@for (i of categories; track i.id) {
+						<option [value]="i.id" [selected]="i.id === categoryId">
+							{{i.name}}
+						</option>
+					}
+				</select>
+			</div>
+
+			<div class="form-group" data-aos="zoom-in">
+				<label><i class="fas fa-camera"></i> Обновить фото</label>
+				<div class="file-upload">
+					<input type="file" (change)="changeFiles($event)"
+						   accept="image/*">
+					<span>Выбрать файлы</span>
+				</div>
+			</div>
+
+			<!-- Дата и гарантия -->
+			<div class="form-group" data-aos="zoom-in">
+				<label><i class="fas fa-calendar-day"></i> Дата постройки</label>
+				<input type="date" formControlName="date">
+			</div>
+
+			<div class="form-group" data-aos="zoom-in">
+				<label><i class="fas fa-shield-alt"></i> Страховка (мес.)</label>
+				<input type="number" formControlName="warranty"
+					   placeholder="Срок страховки">
+			</div>
+
+			<!-- Страна и фирма -->
+			<div class="form-group" data-aos="zoom-in">
+				<label><i class="fas fa-flag"></i> Адрес</label>
+				<input type="text" formControlName="country"
+					   placeholder="Адрес">
+			</div>
+
+			<div class="form-group" data-aos="zoom-in">
+				<label><i class="fas fa-industry"></i> Застройщик</label>
+				<input type="text" formControlName="firm"
+					   placeholder="Компания-застройщик">
+			</div>
+		</div>
+
+		<!-- Описание -->
+		<div class="form-group full-width" data-aos="zoom-in">
+			<label><i class="fas fa-align-left"></i> Описание</label>
+			<textarea formControlName="description"
+					  rows="4"
+					  placeholder="Обновите описание объекта"></textarea>
+		</div>
+
+		<!-- Кнопка сохранения -->
+		<button type="submit"
+				class="submit-btn"
+				[disabled]="!checkSubmit()"
+				data-aos="zoom-in">
+			<i class="fas fa-save"></i>
+			Сохранить изменения
+		</button>
+	</form>
+</div>
+
+<style>
+	.form-container {
+		max-width: 1200px;
+		margin: 2rem auto;
+		padding: 2rem;
+		background: #fff;
+		border-radius: 1.5rem;
+		box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+	}
+
+	.form-header {
+		text-align: center;
+		margin-bottom: 3rem;
+	}
+
+	.form-title {
+		font-size: 2.5rem;
+		color: #2c3e50;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 1.5rem;
+		margin-bottom: 2rem;
+	}
+
+	.back-btn {
+		background: #f8f9fa;
+		color: #3498db;
+		border: 2px solid #3498db;
+		padding: 0.8rem 2rem;
+		border-radius: 0.8rem;
+		transition: all 0.3s;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.8rem;
+	}
+
+	.back-btn:hover {
+		background: #3498db;
+		color: white;
+		transform: translateY(-2px);
+	}
+
+	.property-form {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+	}
+
+	.form-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 2rem;
+		margin-bottom: 1rem;
+	}
+
+	.form-group {
+		position: relative;
+	}
+
+	.form-group label {
+		display: flex;
+		align-items: center;
+		gap: 0.8rem;
+		color: #2c3e50;
+		margin-bottom: 0.8rem;
+		font-weight: 500;
+	}
+
+	.form-group i {
+		font-size: 1.2rem;
+		color: #3498db;
+	}
+
+	input, select, textarea, .file-upload {
+		width: 100%;
+		padding: 1rem;
+		border: 2px solid #e0e0e0;
+		border-radius: 0.8rem;
+		transition: all 0.3s;
+		font-size: 1rem;
+	}
+
+	input:focus, select:focus, textarea:focus {
+		border-color: #3498db;
+		box-shadow: 0 0 15px rgba(52,152,219,0.2);
+		outline: none;
+	}
+
+	.styled-select {
+		appearance: none;
+		background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232c3e50' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+		background-repeat: no-repeat;
+		background-position: right 1rem center;
+		background-size: 1em;
+	}
+
+	.file-upload {
+		position: relative;
+		cursor: pointer;
+		background: #f8f9fa;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #4a6572;
+	}
+
+	.file-upload input {
+		opacity: 0;
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		cursor: pointer;
+	}
+
+	textarea {
+		resize: vertical;
+		min-height: 120px;
+	}
+
+	.submit-btn {
+		background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+		color: white;
+		padding: 1.2rem;
+		border: none;
+		border-radius: 0.8rem;
+		width: 100%;
+		font-size: 1.2rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 1rem;
+		transition: all 0.3s;
+	}
+
+	.submit-btn:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+	}
+
+	.submit-btn:disabled {
+		background: #bdc3c7;
+		cursor: not-allowed;
+		opacity: 0.7;
+	}
+
+	@media (max-width: 768px) {
+		.form-container {
+			padding: 1.5rem;
+			margin: 1rem;
+		}
+
+		.form-title {
+			font-size: 2rem;
+		}
+
+		.form-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
